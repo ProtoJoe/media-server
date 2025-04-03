@@ -12,10 +12,9 @@ services:
       - PLEX_CLAIM= # Go here to get this: https://www.plex.tv/claim
       - TZ=America/New_York
     volumes:
-      - <media server home>/Config/Plex:/config
-      - <media server home>/Library/Series:/Series
-      - <media server home>/Library/Films:/Films
-      - <media server home>/Config/Plex/transcode:/transcode
+      - <media server home>/ext/config/plex:/config
+      - <media server home>/ext/library:/library
+      - <media server home>/scratch/plex/transcode:/transcode
     restart: unless-stopped
 
   # Management Interface
@@ -27,7 +26,7 @@ services:
     ports:
         - 90:80
     volumes:
-        - <media server home>/Config/Organizr:/config
+        - <media server home>/ext/config/organizr:/config
     environment:
         - fpm=true #true or false | using true will provide better performance
         - branch=v2-master #v2-master or #v2-develop
@@ -45,7 +44,7 @@ services:
         - TZ=America/New_York
         - UMASK_SET=022
       volumes:
-        - <media server home>/Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        - <media server home>/ext/config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       ports:
         - 9292:9090
       restart: unless-stopped
