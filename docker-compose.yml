@@ -1,5 +1,23 @@
 version: "3.4"
 services:
+  # Usenet Services
+  nzbget:
+    image: nzbgetcom/nzbget:latest
+    container_name: nzbget
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - NZBGET_USER= # DESIRED USERNAME (optional)
+      - NZBGET_PASS= # DESIRED PASSWORD (optional)
+    volumes:
+      - <media server home>/ext/config/nzbget:/config
+      - <media server home>/usenet/downloads:/downloads #optional
+    ports:
+      - 6789:6789
+    restart: unless-stopped
+
   # Media Servers
   plex:
     image: plexinc/pms-docker
