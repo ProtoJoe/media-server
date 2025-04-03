@@ -1,0 +1,80 @@
+version: "3.4"
+services:
+  # Media Servers
+  plex:
+    image: plexinc/pms-docker
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM= # Go here to get this: https://www.plex.tv/claim
+      - TZ=America/New_York
+    volumes:
+      - <media server home>/Config/Plex:/config
+      - <media server home>/Library/Series:/Series
+      - <media server home>/Library/Films:/Films
+      - <media server home>/Config/Plex/transcode:/transcode
+    restart: unless-stopped
+
+  # Management Interface
+  organizr:
+    container_name: organizr
+    hostname: organizr
+    image: organizr/organizr
+    restart: unless-stopped
+    ports:
+        - 90:80
+    volumes:
+        - <media server home>/Config/Organizr:/config
+    environment:
+        - fpm=true #true or false | using true will provide better performance
+        - branch=v2-master #v2-master or #v2-develop
+        - PUID=1000
+        - PGID=1000
+        - TZ=America/New_York
+
+  # System Monitoring
+  prometheus:
+      image: prom/prometheus
+      container_name: prometheus
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=America/New_York
+        - UMASK_SET=022
+      volumes:
+        - <media server home>/Config/Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      ports:
+        - 9292:9090
+      restart: unless-stopped
+
+  node-exporter:
+    privileged: true
+    image: prom/node-exporter
+    container_name: node-exporter
+    restart: always
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points"
+      - "^/(rootfs/)?(dev|etc|host|proc|run|sys|volume1)($$|/)"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - UMASK_SET=022
+    ports:
+      - 3000:3000
+    restart: unless-stopped
