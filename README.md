@@ -2,10 +2,12 @@
 A repo to store config files, etc., for my media server. For easy future setup.
 
 While it's a few years out of date, I started with this as a rough guide:
+
 https://nick-rondeau.medium.com/creating-the-ultimate-media-server-with-docker-portainer-plex-and-ubuntu-server-f47a4503897f
 
 # Server Hardware
 Using a small Intel N150-based server. Specifically the BeeLink EQ14:
+
 https://www.amazon.com/dp/B0B73QB6HK
 
 It's connected to a 20TB external drive. Eventually will likely replace with a DAS in RAID configuration.
