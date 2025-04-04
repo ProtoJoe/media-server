@@ -17,6 +17,14 @@ Using Ubunty Server, presently version 24.10.
 
 # Configuring the OS
 
+## Intel Tools, etc.
+
+```
+sudo apt install intel-gpu-tools
+sudo apt install intel-media-va-driver
+sudo apt install intel-opencl-icd
+```
+
 ## Network Interfaces
 
 ### List Network Interfaces
