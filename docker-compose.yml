@@ -18,6 +18,57 @@ services:
       - 6789:6789
     restart: unless-stopped
 
+  # *arr Services
+  prowlarr: # For indexer management.
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - <media server home>/ext/config/prowlarr:/config
+    ports:
+      - 9696:9696
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - <media server home>/ext/config/sonarr:/config
+      - <media server home>/ext/library/series:/tv #optional
+      - <media server home>/usenet/downloads/completed/Series:/downloads #optional
+    depends_on: 
+      - prowlarr 
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - <media server home>/ext/config/radarr:/config
+      - <media server home>/ext/library/films:/movies #optional
+      - <media server home>/usenet/downloads/completed/Films:/downloads #optional
+    depends_on: 
+      - prowlarr 
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
   # Media Servers
   plex:
     image: plexinc/pms-docker
