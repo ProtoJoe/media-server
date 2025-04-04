@@ -80,6 +80,8 @@ services:
       - VERSION=docker
       - PLEX_CLAIM= # Go here to get this: https://www.plex.tv/claim
       - TZ=America/New_York
+    devices:
+      - /dev/dri:/dev/dri # Pass DRI devices for hardware supported video processing
     volumes:
       - <media server home>/ext/config/plex:/config
       - <media server home>/ext/library:/library
