@@ -13,10 +13,18 @@ https://www.amazon.com/dp/B0B73QB6HK
 It's connected to a 20TB external drive. Eventually will likely replace with a DAS in RAID configuration.
 
 # Server OS
-Using Ubunty Server, presently version 24.10.
 
-## 24.10 Issues
-I could not, for the life of me, get hardware transcoding to work. Am going to try downgrading to the LTS version and then upgrading the Kernel to a version which support the CPU. More to come.
+## Ubuntu Server (Headless)
+
+### 24.10
+Started here, as the kernel version supports the CPU in my machine. (N150 requires Linux kernel 6.11+.) However, I could not, for the life of me, get hardware transcoding to work. Am going to try downgrading to the LTS version and then upgrading the Kernel to a version which support the CPU. More to come.
+
+### Installation Steps
+1. Download and install balenaEtcher (https://etcher.balena.io/)
+1. Download the OS ISO from Ubuntu. (https://ubuntu.com/download/server#how-to-install-latest)
+1. Use balenaEtcher to create a bootable USB drive.
+1. Insert USB stick into server, install OS.
+
 
 # Configuring the OS
 
