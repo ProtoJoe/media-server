@@ -30,6 +30,7 @@ services:
       - <media server home>/ext/config/prowlarr:/config
     ports:
       - 9696:9696
+    restart: unless-stopped
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -69,9 +70,45 @@ services:
       - 7878:7878
     restart: unless-stopped
 
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - <media server home>/ext/config/bazarr:/config
+      - <media server home>/ext/library/films:/movies #optional
+      - <media server home>/ext/library/series:/tv #optional
+    depends_on: 
+      - prowlarr 
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - <media server home>/ext/config/jellyseerr:/app/config
+    depends_on: 
+      - sonarr
+      - radarr
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
   # Media Servers
   plex:
-    image: plexinc/pms-docker
+    image: lscr.io/linuxserver/plex:latest # plexinc/pms-docker
     container_name: plex
     network_mode: host
     environment:
@@ -88,6 +125,22 @@ services:
       - <media server home>/scratch/plex/transcode:/transcode
     restart: unless-stopped
 
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: 1000:1000
+    network_mode: host
+    devices:
+      - /dev/dri:/dev/dri # Pass DRI devices for hardware supported video processing
+    volumes:
+      - <media server home>/ext/config/jellyfin:/config
+      - <media server home>/scratch/jellyfin:/cache
+      - type: bind
+        source: <media server home>/ext/library
+        target: /media
+        read_only: true
+    restart: unless-stopped
+
   # Management Interface
   organizr:
     container_name: organizr
@@ -95,7 +148,8 @@ services:
     image: organizr/organizr
     restart: unless-stopped
     ports:
-        - 90:80
+        - 80:80
+        - 443:80
     volumes:
         - <media server home>/ext/config/organizr:/config
     environment:
@@ -104,6 +158,18 @@ services:
         - PUID=1000
         - PGID=1000
         - TZ=America/New_York
+
+  ## Dynamic DNS
+  cloudflare-ddns:
+    image: timothyjmiller/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    network_mode: 'host'
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - <media server home>/ext/config/cloudflare-ddns/config.json:/config.json
+    restart: unless-stopped
 
   # System Monitoring
   prometheus:
