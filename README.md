@@ -102,6 +102,13 @@ For an ethernet device, add something like the following:
         addresses: [8.8.8.8,8.8.4.4,<router ip>]
 ```
 
+## Mounting External Drive
+1. Use command `lsblk -f` to find the UUID and format of the external drive.
+1. Edit the `/etc/fstab` file. (`sudo vim /etc/fstab`)
+1. Add a line to the end of the file like this: `UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX /mnt/externaldrive ext4 defaults,uid=1000,gid=1000,nofail 0 2`
+1. Ensure that the update worked by running `sudo mount -a`
+1. Check the permissions of the directory with `ls -ld /mnt/mountpoint`
+
 ## Directory Structure
 Root directory: `~/mediasrv`
 
