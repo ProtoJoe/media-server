@@ -15,9 +15,13 @@ It's connected to a 20TB external drive. Eventually will likely replace with a D
 # Server OS
 Using Ubunty Server, presently version 24.10.
 
+## 24.10 Issues
+I could not, for the life of me, get hardware transcoding to work. Am going to try downgrading to the LTS version and then upgrading the Kernel to a version which support the CPU. More to come.
+
 # Configuring the OS
 
 ## Intel Tools, etc.
+MAY NOT BE NECESSARY?
 
 ```
 sudo apt install intel-gpu-tools
