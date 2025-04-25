@@ -93,3 +93,33 @@ For an ethernet device, add something like the following:
       nameservers:
         addresses: [8.8.8.8,8.8.4.4,<router ip>]
 ```
+
+## Directory Structure
+Root directory: `~/mediasrv`
+
+Mount external drive into: `~/mediasrv/ext`
+
+Use a large local partition for scratch data. Symlink this into `~/mediasrv/scratch`
+
+### Media Library
+
+#### Films
+`~/mediasrv/ext/library/films`
+
+#### Series
+`~/mediasrv/ext/library/series`
+
+### Config Files
+For persistence, store in the external drive. All permanent storage should be there.
+
+`~/mediasrv/ext/config/<service name>`
+
+### Transcoding
+Considered scratch data, should be as fast as possible, hence local, in the scratch space.
+
+`~/mediasrv/scratch/transcode`
+
+### Usenet Downloads
+Considered scratch data, as it will be moved into the correct location on the external drive.
+
+`~/mediasrv/scratch/usenet`
