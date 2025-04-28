@@ -37,6 +37,31 @@ sudo apt install intel-media-va-driver
 sudo apt install intel-opencl-icd
 ```
 
+## vainfo, Intel Drivers, and you!
+If vainfo is not install or not working, take the following steps
+
+```
+apt-get update
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:kobuk-team/intel-graphics
+apt-get update
+apt-get install -y intel-media-va-driver-non-free vainfo
+```
+
+This will install the latest Intel drivers and the latest vainfo. This may be necessary for HW transcoding to work.
+
+## Linux Kernel Upgrade
+If necessary to update the Linux kernel, use `mainline`.
+
+```
+sudo add-apt-repository ppa:cappelikan/ppa
+sudo apt update
+sudo apt install mainline
+sudo mainline --install-latest
+```
+
+Something like the above.
+
 ## Network Interfaces
 
 ### List Network Interfaces
