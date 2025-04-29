@@ -28,7 +28,10 @@ Started here, as the kernel version supports the CPU in my machine. (N150 requir
 
 # Configuring the OS
 
-## Intel Tools, etc.
+## Intel GPU
+Helpful link: https://dgpu-docs.intel.com/driver/client/overview.html#ubuntu-24.10
+
+### Intel Tools, etc.
 MAY NOT BE NECESSARY?
 
 ```
@@ -37,7 +40,7 @@ sudo apt install intel-media-va-driver
 sudo apt install intel-opencl-icd
 ```
 
-## vainfo, Intel Drivers, and you!
+### vainfo, Intel Drivers, and you!
 If vainfo is not install or not working, take the following steps
 
 ```
